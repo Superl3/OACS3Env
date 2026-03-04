@@ -1,0 +1,25 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "opencode-todo-reminder@0.0.5"
+  ],
+  "instructions": [
+    "instructions/00-oac-orchestration.md",
+    "instructions/01-worktree-policy.md",
+    "instructions/02-atomic-task-and-tests.md",
+    "instructions/03-learning-and-rejection.md",
+    "instructions/04-quality-pass.md"
+  ],
+  "default_agent": "oac-vibe",
+  "watcher": {
+    "ignore": [
+      ".git/**",
+      "**/.worktrees/**",
+      "**/.backup/**",
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/target/**"
+    ]
+  }
+}

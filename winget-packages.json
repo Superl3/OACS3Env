@@ -1,0 +1,404 @@
+{
+	"$schema" : "https://aka.ms/winget-packages.schema.2.0.json",
+	"CreationDate" : "2026-03-04T23:44:22.069-00:00",
+	"Sources" : 
+	[
+		{
+			"Packages" : 
+			[
+				{
+					"PackageIdentifier" : "Vencord.Vesktop",
+					"Version" : "1.6.5"
+				},
+				{
+					"PackageIdentifier" : "Bandisoft.BandiView",
+					"Version" : "7.23"
+				},
+				{
+					"PackageIdentifier" : "Bandisoft.Bandizip",
+					"Version" : "7.40"
+				},
+				{
+					"PackageIdentifier" : "CPUID.CPU-Z.MSI",
+					"Version" : "2.15"
+				},
+				{
+					"PackageIdentifier" : "Google.PlayGames",
+					"Version" : "26.2.697.0"
+				},
+				{
+					"PackageIdentifier" : "MHNexus.HxD",
+					"Version" : "2.5"
+				},
+				{
+					"PackageIdentifier" : "Parsec.ParsecVDD",
+					"Version" : "0.45.0.0"
+				},
+				{
+					"PackageIdentifier" : "Parsec.ParsecVUD",
+					"Version" : "0.3.10.0"
+				},
+				{
+					"PackageIdentifier" : "LizardByte.Sunshine",
+					"Version" : "2025.628.4510"
+				},
+				{
+					"PackageIdentifier" : "JAMSoftware.TreeSize.Free",
+					"Version" : "4.8.1.610"
+				},
+				{
+					"PackageIdentifier" : "Unity.Unity.6000",
+					"Version" : "6000.3.2f1"
+				},
+				{
+					"PackageIdentifier" : "Unity.UnityHub",
+					"Version" : "> 3.15.2"
+				},
+				{
+					"PackageIdentifier" : "Obsidian.Obsidian",
+					"Version" : "1.11.7"
+				},
+				{
+					"PackageIdentifier" : "VirtualDesktop.Streamer",
+					"Version" : "1.34.2"
+				},
+				{
+					"PackageIdentifier" : "AdrienAllard.FileConverter",
+					"Version" : "2.1.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VCRedist.2010.x64",
+					"Version" : "10.0.40219"
+				},
+				{
+					"PackageIdentifier" : "Motorola.MobileDrivers",
+					"Version" : "6.4.0"
+				},
+				{
+					"PackageIdentifier" : "Elgato.StreamDeck",
+					"Version" : "7.0.3.22071"
+				},
+				{
+					"PackageIdentifier" : "GitHub.cli",
+					"Version" : "2.86.0"
+				},
+				{
+					"PackageIdentifier" : "Logitech.GHUB",
+					"Version" : "2025.9.814157"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VCRedist.2008.x64",
+					"Version" : "9.0.30729.7523"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VSTOR",
+					"Version" : "10.0.60922"
+				},
+				{
+					"PackageIdentifier" : "Google.GoogleDrive",
+					"Version" : "121.0.1.0"
+				},
+				{
+					"PackageIdentifier" : "Google.QuickShare",
+					"Version" : "1.0.2472.1"
+				},
+				{
+					"PackageIdentifier" : "voidtools.Everything",
+					"Version" : "1.4.1.1026"
+				},
+				{
+					"PackageIdentifier" : "ViGEm.ViGEmBus",
+					"Version" : "1.22.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.GameInput",
+					"Version" : "3.2.138.0"
+				},
+				{
+					"PackageIdentifier" : "PlayStation.PlayStationAccessories",
+					"Version" : "2.2.0.3"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.PowerToys",
+					"Version" : "0.96.1"
+				},
+				{
+					"PackageIdentifier" : "Nvidia.CUDA",
+					"Version" : "12.4"
+				},
+				{
+					"PackageIdentifier" : "Nvidia.PhysX",
+					"Version" : "9.23.1019"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VisualStudio.2019.BuildTools",
+					"Version" : "16.11.47"
+				},
+				{
+					"PackageIdentifier" : "FinalWire.AIDA64.Extreme",
+					"Version" : "7.50"
+				},
+				{
+					"PackageIdentifier" : "Guru3D.Afterburner",
+					"Version" : "4.6.6"
+				},
+				{
+					"PackageIdentifier" : "Wagnardsoft.DisplayDriverUninstaller",
+					"Version" : "18.0.7.6"
+				},
+				{
+					"PackageIdentifier" : "dev47apps.DroidCam",
+					"Version" : "6.5.3"
+				},
+				{
+					"PackageIdentifier" : "Google.Chrome.EXE",
+					"Version" : "145.0.7632.119"
+				},
+				{
+					"PackageIdentifier" : "Kakao.KakaoTalk",
+					"Version" : "26.1.2.4957"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.Edge",
+					"Version" : "145.0.3800.82"
+				},
+				{
+					"PackageIdentifier" : "Parsec.Parsec",
+					"Version" : "< 150.101.0.0"
+				},
+				{
+					"PackageIdentifier" : "PIKCLOUD.PikPak",
+					"Version" : "2.7.14"
+				},
+				{
+					"PackageIdentifier" : "Daum.PotPlayer",
+					"Version" : "25.06.25.0"
+				},
+				{
+					"PackageIdentifier" : "Guru3D.RTSS",
+					"Version" : "7.3.7"
+				},
+				{
+					"PackageIdentifier" : "RockstarGames.Launcher",
+					"Version" : "1.0.105.2733"
+				},
+				{
+					"PackageIdentifier" : "Valve.Steam",
+					"Version" : "2.10.91.91"
+				},
+				{
+					"PackageIdentifier" : "Smilegate.Stove",
+					"Version" : "Unknown"
+				},
+				{
+					"PackageIdentifier" : "Baidu.TeraBox",
+					"Version" : "1.42.2"
+				},
+				{
+					"PackageIdentifier" : "ZeroTier.ZeroTierOne",
+					"Version" : "1.14.2"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VisualStudio.2022.BuildTools",
+					"Version" : "< 17.14.27"
+				},
+				{
+					"PackageIdentifier" : "Nevcairiel.LAVFilters",
+					"Version" : "0.79.1"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.DotNet.DesktopRuntime.6",
+					"Version" : "6.0.36"
+				},
+				{
+					"PackageIdentifier" : "AdGuard.AdGuard",
+					"Version" : "7.22.5257.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VCRedist.2015+.x86",
+					"Version" : "14.50.35719.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VCRedist.2012.x86",
+					"Version" : "11.0.61030.0"
+				},
+				{
+					"PackageIdentifier" : "Tailscale.Tailscale",
+					"Version" : "1.94.1"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.WindowsSDK.10.0.19041",
+					"Version" : "10.0.19041.685"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.DotNet.DesktopRuntime.9",
+					"Version" : "9.0.4"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VCRedist.2005.x86",
+					"Version" : "8.0.61187"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.DotNet.SDK.8",
+					"Version" : "8.0.412"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VCRedist.2015+.x64",
+					"Version" : "14.50.35719.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VCRedist.2008.x86",
+					"Version" : "9.0.30729.7523"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VCRedist.2013.x86",
+					"Version" : "12.0.40664.0"
+				},
+				{
+					"PackageIdentifier" : "AviSynth.AviSynthPlus",
+					"Version" : "3.7.3.4003"
+				},
+				{
+					"PackageIdentifier" : "Python.Launcher",
+					"Version" : "> 3.13.5"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VCRedist.2010.x86",
+					"Version" : "10.0.40219"
+				},
+				{
+					"PackageIdentifier" : "MoonlightGameStreamingProject.Moonlight",
+					"Version" : "6.1.0.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.DotNet.DesktopRuntime.8",
+					"Version" : "8.0.12"
+				},
+				{
+					"PackageIdentifier" : "AdGuard.AdGuardVPN",
+					"Version" : "2.7.1800.0"
+				},
+				{
+					"PackageIdentifier" : "beeradmoore.dlss-swapper",
+					"Version" : "1.2.3.2"
+				},
+				{
+					"PackageIdentifier" : "Anaconda.Miniconda3",
+					"Version" : "py310_25.1.1-2"
+				},
+				{
+					"PackageIdentifier" : "SST.OpenCodeDesktop",
+					"Version" : "1.2.16"
+				},
+				{
+					"PackageIdentifier" : "Spotify.Spotify",
+					"Version" : "1.2.68.528.g50f97d42"
+				},
+				{
+					"PackageIdentifier" : "astral-sh.uv",
+					"Version" : "0.9.18"
+				},
+				{
+					"PackageIdentifier" : "jqlang.jq",
+					"Version" : "1.8.1"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VisualStudioCode",
+					"Version" : "1.109.4"
+				},
+				{
+					"PackageIdentifier" : "Google.Antigravity",
+					"Version" : "1.16.5"
+				},
+				{
+					"PackageIdentifier" : "Python.Python.3.14",
+					"Version" : "3.14.3"
+				},
+				{
+					"PackageIdentifier" : "Canonical.Ubuntu",
+					"Version" : "2404.1.68.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.Teams",
+					"Version" : "25255.703.3978.7153"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.AppInstaller",
+					"Version" : "1.27.460.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.DirectX",
+					"Version" : "9.29.1974.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.UI.Xaml.2.7",
+					"Version" : "7.2409.9001.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.UI.Xaml.2.8",
+					"Version" : "8.2501.31001.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.VCLibs.Desktop.14",
+					"Version" : "14.0.33728.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.WindowsTerminal",
+					"Version" : "1.23.20211.0"
+				},
+				{
+					"PackageIdentifier" : "Microsoft.WSL",
+					"Version" : "2.5.9.0"
+				},
+				{
+					"PackageIdentifier" : "TheBrowserCompany.Arc",
+					"Version" : "1.93.1.5"
+				}
+			],
+			"SourceDetails" : 
+			{
+				"Argument" : "https://cdn.winget.microsoft.com/cache",
+				"Identifier" : "Microsoft.Winget.Source_8wekyb3d8bbwe",
+				"Name" : "winget",
+				"Type" : "Microsoft.PreIndexed.Package"
+			}
+		},
+		{
+			"Packages" : 
+			[
+				{
+					"PackageIdentifier" : "XP8CBJ40XLBWKX",
+					"Version" : "4.42.1"
+				},
+				{
+					"PackageIdentifier" : "XP99VR1BPSBQJ2",
+					"Version" : "1.3.170.0"
+				},
+				{
+					"PackageIdentifier" : "XPDCFJDKLZJLP8",
+					"Version" : "17.14.7"
+				},
+				{
+					"PackageIdentifier" : "XPDP2QW12DFSFK",
+					"Version" : "169.5.13021"
+				},
+				{
+					"PackageIdentifier" : "XPFC0VB7MLFWLC",
+					"Version" : "13.616.1.6133"
+				},
+				{
+					"PackageIdentifier" : "XPDBVSS44R0L9H",
+					"Version" : "4.22.0"
+				}
+			],
+			"SourceDetails" : 
+			{
+				"Argument" : "https://storeedgefd.dsx.mp.microsoft.com/v9.0",
+				"Identifier" : "StoreEdgeFD",
+				"Name" : "msstore",
+				"Type" : "Microsoft.Rest"
+			}
+		}
+	],
+	"WinGetVersion" : "1.12.460"
+}
