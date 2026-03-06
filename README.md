@@ -5,7 +5,7 @@ This repository captures the minimum artifacts needed to reproduce an OpenCode w
 ## Included artifacts
 
 - `winget-packages.json`: curated minimal manifest for `winget import`
-- `opencode/`: snapshot of OpenCode config assets (`instructions`, `skills`, `opencode.json`)
+- `opencode/`: snapshot of OpenCode config assets (`instructions`, `skills`, `opencode.json`, `agent/core` profiles)
 - `.env.example`: example environment variables template
 - `mise.toml`: pinned runtime tool versions
 - `bootstrap.ps1`: setup script for package import, runtime install, and config restore
@@ -19,6 +19,8 @@ This repository captures the minimum artifacts needed to reproduce an OpenCode w
 - `jdx.mise`
 
 `SST.opencode` is not part of the default manifest and is not installed automatically unless you opt in.
+
+If you opt in with `-InstallOpenCode`, bootstrap enforces a pinned `opencode` version (`1.2.17`).
 
 Everything else is installed through `mise install` and restored from `opencode/` snapshot files. Personal apps, games, and `msstore` entries are intentionally excluded.
 
@@ -44,7 +46,7 @@ pwsh -ExecutionPolicy Bypass -File .\verify.ps1
 - `-ConfigRoot <path>`: target config root (default: `$HOME\.config\opencode`)
 - `-SkipWingetImport`: skip `winget import` (the script still checks for `git` and `mise` and installs any missing required tool individually)
 - `-SkipConfigRestore`: skip restoring `opencode/` snapshot
-- `-InstallOpenCode`: opt in to install `opencode` (`SST.opencode`) via winget
+- `-InstallOpenCode`: opt in to install `opencode` (`SST.opencode`) via winget, pinned to `1.2.17`
 
 `verify.ps1` options:
 
@@ -63,7 +65,15 @@ pwsh -File .\verify.ps1 -RequireOpenCode
 
 ## Winget import note
 
-`winget import` is best-effort and targets only `Git.Git` and `jdx.mise`. The bootstrap script also checks for `git` and `mise` and installs any missing required tool. `opencode` is opt-in with `-InstallOpenCode`.
+`winget import` is best-effort and targets only `Git.Git` and `jdx.mise`. The bootstrap script also checks for `git` and `mise` and installs any missing required tool. `opencode` is opt-in with `-InstallOpenCode` and is pinned to `1.2.17` when installed.
+
+The snapshot restore now requires and validates the Vibe/Strict/Query profile files:
+
+- `opencode/agent/core/oac-vibe.md`
+- `opencode/agent/core/oac-strict.md`
+- `opencode/agent/core/oac-lite.md`
+
+`verify.ps1` checks these same profile artifacts under `ConfigRoot`.
 
 ## Troubleshooting: `mise` not found right after install
 
@@ -92,7 +102,7 @@ pwsh -ExecutionPolicy Bypass -File .\bootstrap.ps1
 If Defender blocks automatic install, keep the baseline setup and add `opencode` manually after review:
 
 ```powershell
-winget install --id SST.opencode --exact --accept-source-agreements --accept-package-agreements --disable-interactivity
+winget install --id SST.opencode --exact --version 1.2.17 --accept-source-agreements --accept-package-agreements --disable-interactivity
 pwsh -ExecutionPolicy Bypass -File .\verify.ps1 -RequireOpenCode
 ```
 
