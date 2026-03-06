@@ -2,7 +2,8 @@
 param(
     [string]$ConfigRoot = "$HOME\\.config\\opencode",
     [switch]$SkipWingetImport,
-    [switch]$SkipConfigRestore
+    [switch]$SkipConfigRestore,
+    [switch]$InstallOpenCode
 )
 
 Set-StrictMode -Version Latest
@@ -13,17 +14,66 @@ function Write-Step {
     Write-Host "==> $Message"
 }
 
+function Refresh-ProcessPath {
+    $machinePath = [Environment]::GetEnvironmentVariable("Path", "Machine")
+    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+    $pathParts = @()
+
+    if ($machinePath) {
+        $pathParts += $machinePath
+    }
+
+    if ($userPath) {
+        $pathParts += $userPath
+    }
+
+    $env:Path = ($pathParts -join ";")
+}
+
+function Resolve-CommandPath {
+    param(
+        [Parameter(Mandatory = $true)][string]$CommandName
+    )
+
+    $command = Get-Command $CommandName -ErrorAction SilentlyContinue
+    if ($command) {
+        if ($command.Path) {
+            return $command.Path
+        }
+
+        if ($command.Definition -and (Test-Path -LiteralPath $command.Definition)) {
+            return $command.Definition
+        }
+    }
+
+    $fallbackPath = Join-Path $env:LOCALAPPDATA "Microsoft\WinGet\Links\$CommandName.exe"
+    if (Test-Path -LiteralPath $fallbackPath) {
+        return $fallbackPath
+    }
+
+    return $null
+}
+
+$script:WingetPath = Resolve-CommandPath -CommandName "winget"
+if (-not $script:WingetPath) {
+    throw "winget command was not found. Install/repair App Installer, open a new PowerShell session, and retry."
+}
+
 function Install-WingetPackage {
     param(
         [Parameter(Mandatory = $true)][string]$PackageId
     )
 
-    winget install `
+    & $script:WingetPath install `
         --id $PackageId `
         --exact `
         --accept-source-agreements `
         --accept-package-agreements `
         --disable-interactivity
+
+    if ($LASTEXITCODE -ne 0) {
+        throw "winget install failed for '$PackageId' (exit code: $LASTEXITCODE)"
+    }
 }
 
 function Ensure-Tool {
@@ -32,16 +82,22 @@ function Ensure-Tool {
         [Parameter(Mandatory = $true)][string]$PackageId
     )
 
-    if (Get-Command $CommandName -ErrorAction SilentlyContinue) {
-        return
+    $commandPath = Resolve-CommandPath -CommandName $CommandName
+    if ($commandPath) {
+        return $commandPath
     }
 
     Write-Step "$CommandName not found; installing $PackageId"
     Install-WingetPackage -PackageId $PackageId
 
-    if (-not (Get-Command $CommandName -ErrorAction SilentlyContinue)) {
+    Refresh-ProcessPath
+    $commandPath = Resolve-CommandPath -CommandName $CommandName
+
+    if (-not $commandPath) {
         throw "$CommandName is still not available after installing $PackageId"
     }
+
+    return $commandPath
 }
 
 $repoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -55,7 +111,7 @@ if (-not $SkipWingetImport) {
 
     Write-Step "Importing packages from winget-packages.json (best-effort)"
     try {
-        winget import `
+        & $script:WingetPath import `
             --import-file "$wingetManifest" `
             --accept-source-agreements `
             --accept-package-agreements `
@@ -75,20 +131,30 @@ else {
     Write-Step "Skipping winget import"
 }
 
-Ensure-Tool -CommandName "git" -PackageId "Git.Git"
-Ensure-Tool -CommandName "mise" -PackageId "jdx.mise"
-Ensure-Tool -CommandName "opencode" -PackageId "SST.opencode"
+Write-Step "Default tool policy: ensure git and mise only; opencode install is opt-in via -InstallOpenCode"
 
-$miseCommand = Get-Command mise -ErrorAction SilentlyContinue
-if (-not $miseCommand) {
-    throw "mise is still not available in PATH. Open a new shell and rerun bootstrap.ps1."
+$gitPath = Ensure-Tool -CommandName "git" -PackageId "Git.Git"
+$misePath = Ensure-Tool -CommandName "mise" -PackageId "jdx.mise"
+
+$opencodePath = $null
+if ($InstallOpenCode) {
+    Write-Step "-InstallOpenCode specified; ensuring opencode"
+    $opencodePath = Ensure-Tool -CommandName "opencode" -PackageId "SST.opencode"
+}
+else {
+    Write-Step "Skipping opencode installation by default"
+}
+
+Write-Step "Resolved git command path: $gitPath"
+if ($opencodePath) {
+    Write-Step "Resolved opencode command path: $opencodePath"
 }
 
 Write-Step "Trusting and installing mise tools"
 Push-Location $repoRoot
 try {
-    mise trust "$repoRoot"
-    mise install
+    & $misePath trust "$repoRoot"
+    & $misePath install
 }
 finally {
     Pop-Location

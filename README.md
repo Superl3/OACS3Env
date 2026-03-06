@@ -13,11 +13,12 @@ This repository captures the minimum artifacts needed to reproduce an OpenCode w
 
 ## Minimal package strategy
 
-`winget-packages.json` intentionally tracks only three packages needed to reproduce OpenCode setup:
+`winget-packages.json` intentionally tracks only two baseline packages:
 
 - `Git.Git`
 - `jdx.mise`
-- `SST.opencode`
+
+`SST.opencode` is not part of the default manifest and is not installed automatically unless you opt in.
 
 Everything else is installed through `mise install` and restored from `opencode/` snapshot files. Personal apps, games, and `msstore` entries are intentionally excluded.
 
@@ -41,26 +42,66 @@ pwsh -ExecutionPolicy Bypass -File .\verify.ps1
 `bootstrap.ps1` options:
 
 - `-ConfigRoot <path>`: target config root (default: `$HOME\.config\opencode`)
-- `-SkipWingetImport`: skip `winget import` (the script still checks for `git`, `mise`, and `opencode` and tries to install any missing required tool individually)
+- `-SkipWingetImport`: skip `winget import` (the script still checks for `git` and `mise` and installs any missing required tool individually)
 - `-SkipConfigRestore`: skip restoring `opencode/` snapshot
+- `-InstallOpenCode`: opt in to install `opencode` (`SST.opencode`) via winget
+
+`verify.ps1` options:
+
+- `-ConfigRoot <path>`: target config root (default: `$HOME\.config\opencode`)
+- `-RequireOpenCode`: require `opencode` to be present; fail if missing
 
 Examples:
 
 ```powershell
 pwsh -File .\bootstrap.ps1 -ConfigRoot "$HOME\.config\opencode"
 pwsh -File .\bootstrap.ps1 -SkipWingetImport
+pwsh -File .\bootstrap.ps1 -InstallOpenCode
 pwsh -File .\verify.ps1 -ConfigRoot "$HOME\.config\opencode"
+pwsh -File .\verify.ps1 -RequireOpenCode
 ```
 
 ## Winget import note
 
-`winget import` is best-effort and targets only the three required packages. The bootstrap script also checks for `git`, `mise`, and `opencode` and installs any missing required tool.
+`winget import` is best-effort and targets only `Git.Git` and `jdx.mise`. The bootstrap script also checks for `git` and `mise` and installs any missing required tool. `opencode` is opt-in with `-InstallOpenCode`.
+
+## Troubleshooting: `mise` not found right after install
+
+Symptom:
+
+- Bootstrap reports `mise command not found`, or `mise` is still not recognized immediately after install.
+
+Actions:
+
+1. Open a new PowerShell session in this repository directory.
+2. Refresh package sources and reinstall `mise` explicitly:
+
+```powershell
+winget source update
+winget install --id jdx.mise --exact --accept-source-agreements --accept-package-agreements --disable-interactivity
+```
+
+3. Run bootstrap again:
+
+```powershell
+pwsh -ExecutionPolicy Bypass -File .\bootstrap.ps1
+```
+
+## Troubleshooting: Defender flags `opencode`
+
+If Defender blocks automatic install, keep the baseline setup and add `opencode` manually after review:
+
+```powershell
+winget install --id SST.opencode --exact --accept-source-agreements --accept-package-agreements --disable-interactivity
+pwsh -ExecutionPolicy Bypass -File .\verify.ps1 -RequireOpenCode
+```
 
 ## Minimal reproduction path
 
-1. Install required packages with `winget import` from `winget-packages.json`.
+1. Install baseline packages with `winget import` from `winget-packages.json`.
 2. Install pinned runtimes with `mise trust` + `mise install`.
 3. Restore OpenCode config from `opencode/` snapshot.
+4. Optional: install `opencode` with `bootstrap.ps1 -InstallOpenCode` and validate with `verify.ps1 -RequireOpenCode`.
 
 ## Push to remote
 

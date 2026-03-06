@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [string]$ConfigRoot = "$HOME\\.config\\opencode"
+    [string]$ConfigRoot = "$HOME\\.config\\opencode",
+    [switch]$RequireOpenCode
 )
 
 Set-StrictMode -Version Latest
@@ -30,7 +31,17 @@ Show-Version -Name "git" -Command "git"
 Show-Version -Name "node" -Command "node"
 Show-Version -Name "python" -Command "python"
 Show-Version -Name "bun" -Command "bun"
-Show-Version -Name "opencode" -Command "opencode"
+
+$opencodeCommand = Get-Command opencode -ErrorAction SilentlyContinue
+if ($opencodeCommand) {
+    Show-Version -Name "opencode" -Command "opencode"
+}
+elseif ($RequireOpenCode) {
+    throw "opencode command not found: opencode"
+}
+else {
+    Write-Warning "opencode is not installed; continuing because -RequireOpenCode was not specified"
+}
 
 $miseCommand = Get-Command mise -ErrorAction SilentlyContinue
 if (-not $miseCommand) {

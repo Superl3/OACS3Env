@@ -9,9 +9,6 @@
                 },
                 {
                     "PackageIdentifier": "jdx.mise"
-                },
-                {
-                    "PackageIdentifier": "SST.opencode"
                 }
             ],
             "SourceDetails": {
