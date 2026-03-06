@@ -13,6 +13,37 @@ function Write-Step {
     Write-Host "==> $Message"
 }
 
+function Install-WingetPackage {
+    param(
+        [Parameter(Mandatory = $true)][string]$PackageId
+    )
+
+    winget install `
+        --id $PackageId `
+        --exact `
+        --accept-source-agreements `
+        --accept-package-agreements `
+        --disable-interactivity
+}
+
+function Ensure-Tool {
+    param(
+        [Parameter(Mandatory = $true)][string]$CommandName,
+        [Parameter(Mandatory = $true)][string]$PackageId
+    )
+
+    if (Get-Command $CommandName -ErrorAction SilentlyContinue) {
+        return
+    }
+
+    Write-Step "$CommandName not found; installing $PackageId"
+    Install-WingetPackage -PackageId $PackageId
+
+    if (-not (Get-Command $CommandName -ErrorAction SilentlyContinue)) {
+        throw "$CommandName is still not available after installing $PackageId"
+    }
+}
+
 $repoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $wingetManifest = Join-Path $repoRoot "winget-packages.json"
 $snapshotRoot = Join-Path $repoRoot "opencode"
@@ -23,27 +54,30 @@ if (-not $SkipWingetImport) {
     }
 
     Write-Step "Importing packages from winget-packages.json (best-effort)"
-    winget import `
-        --import-file "$wingetManifest" `
-        --accept-source-agreements `
-        --accept-package-agreements `
-        --ignore-unavailable `
-        --ignore-versions `
-        --disable-interactivity
+    try {
+        winget import `
+            --import-file "$wingetManifest" `
+            --accept-source-agreements `
+            --accept-package-agreements `
+            --ignore-unavailable `
+            --ignore-versions `
+            --disable-interactivity
+
+        if ($LASTEXITCODE -ne 0) {
+            Write-Step "winget import reported issues; continuing with required tool checks"
+        }
+    }
+    catch {
+        Write-Step "winget import failed; continuing with required tool checks"
+    }
 }
 else {
     Write-Step "Skipping winget import"
 }
 
-if (-not (Get-Command mise -ErrorAction SilentlyContinue)) {
-    Write-Step "mise not found; installing via winget"
-    winget install `
-        --id jdx.mise `
-        --exact `
-        --accept-source-agreements `
-        --accept-package-agreements `
-        --disable-interactivity
-}
+Ensure-Tool -CommandName "git" -PackageId "Git.Git"
+Ensure-Tool -CommandName "mise" -PackageId "jdx.mise"
+Ensure-Tool -CommandName "opencode" -PackageId "SST.opencode"
 
 $miseCommand = Get-Command mise -ErrorAction SilentlyContinue
 if (-not $miseCommand) {
@@ -51,14 +85,21 @@ if (-not $miseCommand) {
 }
 
 Write-Step "Trusting and installing mise tools"
-mise trust "$repoRoot"
-mise install
+Push-Location $repoRoot
+try {
+    mise trust "$repoRoot"
+    mise install
+}
+finally {
+    Pop-Location
+}
 
 if (-not $SkipConfigRestore) {
     if (-not (Test-Path -LiteralPath $snapshotRoot)) {
         throw "opencode snapshot not found: $snapshotRoot"
     }
 
+    $backupPath = $null
     if (Test-Path -LiteralPath $ConfigRoot) {
         $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
         $backupPath = "$ConfigRoot.backup.$timestamp"
@@ -72,7 +113,29 @@ if (-not $SkipConfigRestore) {
     }
 
     Write-Step "Restoring opencode snapshot to ConfigRoot"
-    Copy-Item -LiteralPath $snapshotRoot -Destination $ConfigRoot -Recurse -Force
+    try {
+        Copy-Item -LiteralPath $snapshotRoot -Destination $ConfigRoot -Recurse -Force
+    }
+    catch {
+        $restoreError = $_
+
+        if ($backupPath -and (Test-Path -LiteralPath $backupPath)) {
+            Write-Step "Restore failed; attempting to roll back ConfigRoot from backup"
+
+            try {
+                if (Test-Path -LiteralPath $ConfigRoot) {
+                    Remove-Item -LiteralPath $ConfigRoot -Recurse -Force
+                }
+
+                Move-Item -LiteralPath $backupPath -Destination $ConfigRoot
+            }
+            catch {
+                Write-Step "Rollback from backup failed: $($_.Exception.Message)"
+            }
+        }
+
+        throw $restoreError
+    }
 }
 else {
     Write-Step "Skipping config snapshot restore"
